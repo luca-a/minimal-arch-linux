@@ -1,49 +1,36 @@
 #!/bin/bash
 
-encryption_passphrase=""
 root_password=""
 user_password=""
 hostname=""
 user_name=""
-continent_city=""
+continent_city="Europe/Rome"
 swap_size="8"
 
 echo "Updating system clock"
 timedatectl set-ntp true
 
 echo "Creating partition tables"
-printf "n\n1\n4096\n+512M\nef00\nw\ny\n" | gdisk /dev/nvme0n1
-printf "n\n2\n\n\n8e00\nw\ny\n" | gdisk /dev/nvme0n1
-
-echo "Zeroing partitions"
-cat /dev/zero > /dev/nvme0n1p1
-cat /dev/zero > /dev/nvme0n1p2
+printf "n\n1\n2048\n+512M\nef00\nw\ny\n" | gdisk /dev/nvme0n1 # /efi EFI (512 MB)
+printf "n\n2\n\n+100G\n8300\nw\ny\n" | gdisk /dev/nvme0n1 # / LINUX FILESYSTEM (100 GB)
+printf "n\n3\n\n\n8300\nw\ny\n" | gdisk /dev/nvme0n1 # /home LINUX FILESYSTEM (remaining space)
 
 echo "Building EFI filesystem"
-yes | mkfs.fat -F32 /dev/nvme0n1p1
+yes | mkfs.fat -F32 /dev/nvme0n1p1 
+yes | mkfs.ext4 /dev/nvme0n1p2
+yes | mkfs.ext4 /dev/nvme0n1p3
 
-echo "Setting up cryptographic volume"
-printf "%s" "$encryption_passphrase" | cryptsetup -c aes-xts-plain64 -h sha512 -s 512 --use-random --type luks2 --label LVMPART luksFormat /dev/nvme0n1p2
-printf "%s" "$encryption_passphrase" | cryptsetup luksOpen /dev/nvme0n1p2 cryptoVols
+echo "Mounting root/efi/home"
+mount /dev/nvme0n1p2 /mnt
 
-echo "Setting up LVM"
-pvcreate /dev/mapper/cryptoVols
-vgcreate Arch /dev/mapper/cryptoVols
-lvcreate -L +"$swap_size"GB Arch -n swap
-lvcreate -l +100%FREE Arch -n root
+mkdir /mnt/efi
+mkdir /mnt/home
 
-echo "Building filesystems for root and swap"
-yes | mkswap /dev/mapper/Arch-swap
-yes | mkfs.ext4 /dev/mapper/Arch-root
-
-echo "Mounting root/boot and enabling swap"
-mount /dev/mapper/Arch-root /mnt
-mkdir /mnt/boot
-mount /dev/nvme0n1p1 /mnt/boot
-swapon /dev/mapper/Arch-swap
+mount /dev/nvme0n1p1 /mnt/efi
+mount /dev/nvme0n1p3 /mnt/home
 
 echo "Installing Arch Linux"
-yes '' | pacstrap /mnt base base-devel intel-ucode networkmanager wget reflector
+yes '' | pacstrap /mnt base base-devel amd-ucode networkmanager wget reflector
 
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -53,6 +40,8 @@ arch-chroot /mnt /bin/bash <<EOF
 echo "Setting system clock"
 ln -fs /usr/share/zoneinfo/$continent_city /etc/localtime
 hwclock --systohc --localtime
+
+#Modified
 
 echo "Setting locales"
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
