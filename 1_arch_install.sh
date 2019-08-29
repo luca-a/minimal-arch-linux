@@ -10,6 +10,10 @@ user_password=""
 continent_city="" #Europe/Rome
 #swap_size="16" #add swap file creation
 
+#Wifi info
+ssid="" #Your ap ssid
+key="" #Your ap passphrase
+
 echo "Updating system clock"
 timedatectl set-ntp true
 
@@ -59,6 +63,11 @@ echo "Creating new user"
 useradd -m -G wheel -s /bin/bash $user_name
 echo -en "$user_password\n$user_password" | passwd $user_name
 
+echo "Generating initramfs"
+sed -i 's/^HOOKS.*/HOOKS=(base udev keyboard autodetect modconf block keymap resume filesystems fsck)/' /etc/mkinitcpio.conf
+sed -i 's/^MODULES.*/MODULES=(amdgpu)/' /etc/mkinitcpio.conf
+mkinitcpio -p linux
+
 echo "Setting up systemd-boot"
 bootctl --path=/efi install
 
@@ -75,7 +84,7 @@ touch /efi/loader/entries/arch.conf
 tee -a /efi/loader/entries/arch.conf << END
 title ArchLinux
 linux /vmlinuz-linux
-initrd /amd-ucode.img #microcode: change if cpu is from a different vendor
+initrd /amd-ucode.img
 initrd /initramfs-linux.img
 options root=/dev/nvme0n1p2 quiet rw
 END
@@ -114,7 +123,14 @@ Exec = /bin/sh -c "reflector --latest 200 --age 12 --protocol https --sort rate 
 END
 
 echo "Creating netctl profile"
-#TODO create netctl profile and additional configuration
+touch /etc/netctl/wireless
+tee -a /etc/netctl/wireless << END
+Interface=wlan0
+Connection=wireless
+Security=wpa
+ESSID='$ssid'
+Key='$key'
+END
 
 echo "Adding user as a sudoer"
 echo '%wheel ALL=(ALL) ALL' | EDITOR='tee -a' visudo

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Setting netctl profile"
+sudo netctl enable wireless
+
 echo "Installing common packages"
 yes | sudo pacman -S linux-headers dkms xdg-user-dirs xorg-server-xwayland
 
@@ -11,8 +14,15 @@ sudo ufw enable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
+echo "Installing and enabling TLP"
+yes | sudo pacman -S tlp
+sudo systemctl enable tlp.service
+sudo systemctl enable tlp-sleep.service
+sudo systemctl start tlp.service
+sudo systemctl start tlp-sleep.service
+
 echo "Installing common applications"
-echo -en "1\nyes" | sudo pacman -S git openssh links alacritty upower htop powertop
+echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop powertop
 
 echo "Installing fonts"
 yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code
@@ -64,6 +74,12 @@ wget -P ~/.config/waybar https://raw.githubusercontent.com/luca-a/minimal-arch-l
 echo "Ricing Alacritty"
 mkdir -p ~/.config/alacritty
 wget -P ~/.config/alacritty https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/alacritty/alacritty.yml
+
+#TODO pull and replace with links from personal repository
+echo "Ricing rofi"
+mkdir -p ~/.config/rofi
+wget -P ~/.config/rofi https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/configs/rofi/base16-material-darker.rasi
+wget -P ~/.config/rofi https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/configs/rofi/config
 
 echo "Increasing the amount of inotify watchers"
 echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-watches.conf && sudo sysctl --system
