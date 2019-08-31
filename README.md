@@ -1,8 +1,10 @@
-# Modern Arch Linux install scripts
-![screenshot](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot.png)
+# Minimal Arch Linux setup - Install scripts
 
-## Features and setup
-### Install script
+Clean | Busy
+:-------------------------:|:-------------------------:
+![screenshot_2](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot_2.png) | ![screenshot](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot.png)
+
+## Install script
 * LVM on LUKS
 * LUKS2
 * systemd-boot (with Pacman hook for automatic updates)
@@ -10,25 +12,15 @@
 * SSD Periodic TRIM
 * Intel microcode
 * Automatic sort of mirrors list by speed, synced within the last 12 hours and filtered by HTTPS protocol (Reflector with Pacman hook)
+* Standard Kernel + LTS kernel as fallback
+* AppArmor
+* Hibernate (power key) + suspend (lid close)
 
-### Post install script
-* UFW (deny incoming, allow outgoing)
-* TLP (default settings)
-* swaywm:
-   * autostart on tty1
-   * waybar: onclick pavucontrol (volume control) and nmtui (ncli network manager)
-   * swayidle and swaylock: automatic sleep and lock
-   * Alacritty terminal
-   * rofi as application launcher
-   * slurp and grim for screenshots
-* zsh:
-   * powerlevel9k theme
-   * History
-   * Load NVM on first invocation
-   * ~~Force wayland for QT applications~~ disabled due to incompatibility with keepassxc
-   * ~~Force wayland for GTK applications~~ disabled due to electron apps incompatibility (code oss)
-* GTK theme and icons: Qogir
-* Other applications: firefox, keepassxc, git, openssh, vim, alacritty, thunar (with USB automonting), NVM (with node.js LTS), tumbler, evince, gimp, inkscape, thunderbird, upower, htop, code oss, nnn
+### Requirements
+* UEFI mode
+* NVMe SSD
+* TRIM compatible SSD
+* Intel CPU
 
 ### Partitions
 | Name | Type | Mountpoint |
@@ -40,38 +32,71 @@
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─Arch-swap | lvm | [SWAP] |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─Arch-root | lvm | / |
 
-## Requirements
-* UEFI mode
-* NVMe SSD
-* TRIM compatible SSD
-* Intel CPU
+## Post install script
+* UFW (deny incoming, allow outgoing)
+* Firejail (with AppArmor integration)
+* TLP (default settings)
+* base16-material-darker (alacritty, neovim, rofi, waybar, VS Code)
+* swaywm:
+   * autostart on tty1
+   * waybar: onclick pavucontrol (volume control) and nmtui (ncli network manager)
+   * swayidle and swaylock: automatic sleep and lock
+   * Alacritty terminal
+   * rofi as application launcher
+   * slurp and grim for screenshots
+* zsh:
+   * powerlevel9k theme
+   * History
+   * ~~Force wayland for QT applications~~ disabled due to incompatibility with keepassxc
+   * ~~Force wayland for GTK applications~~ disabled due to incompatibility with electron apps (e.g. VS Code)
+* neovim:
+   * nerdtree
+   * coc
+   * denite
+* GTK theme and icons: Qogir
+* Other applications: firefox, keepassxc, git, openssh, vim, thunar (with USB automonting), golang, Node.js LTS, tumbler, evince, gimp, inkscape, thunderbird, upower, htop, VS code oss, nnn and a few others
 
-## Quickstart
+## Quick start / Brief install guide
+*See 'Detailed installation guide' below for the expanded version*
+* Increase cowspace partition so that git can be downloaded without before chroot: `mount -o remount,size=2G /run/archiso/cowspace`
+* Install git: `pacman -Sy git`
+* Clone repository: `git clone https://github.com/exah-io/minimal-arch-linux.git`
+* Run install script: `bash minimal-arch-linux/1_arch_install.sh`
+
+## Detailed installation guide
 1. Download and boot into the latest [Arch Linux iso](https://www.archlinux.org/download/)
-2. Connect to the internet. If using wifi, you can use wifi-menu
-3. Clear all existing partitions (see MISC section below)
-4. wget [1_arch_install.sh](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/1_arch_install.sh)
-5. Change the variables at the top of the file
-   * continent_country must have the following format: Continent/City . e.g. Europe/Berlin
-6. Enable the closest mirror to you on /etc/pacman.d/mirrorlist (move it to the top)
-7. Make the script executable: chmod +x 1_arch_install.sh
-8. Run the script: ./1_arch_install.sh
-9. Reboot
-10. wget [2_arch_post_install.sh](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/2_arch_post_install.sh)
-11. Make the script executable: chmod +x 2_arch_post_install.sh
-12. Run the script: ./2_arch_post_install.sh
+2. Connect to the internet. If using wifi, you can use `wifi-menu` to connect to a network
+3. Clear all existing partitions (see below: MISC - How to clear all partitions)
+4. (optional) Give highest priority to the closest mirror to you on /etc/pacman.d/mirrorlist by moving it to the top
+5. `wget https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/1_arch_install.sh`
+6. Change the variables at the top of the file (lines 3 through 9)
+   * continent_country must have the following format: Zone/SubZone . e.g. Europe/Berlin
+   * run `timedatectl list-timezones` to see full list of zones and subzones   
+7. Make the script executable: `chmod +x 1_arch_install.sh`
+8. Run the script: `./1_arch_install.sh`
+9. Reboot into Arch Linux
+10. Connect to wifi with `nmtui`
+10. `wget https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/2_arch_post_install.sh`
+11. Make the script executable: `chmod +x 2_arch_post_install.sh`
+12. Run the script: `./2_arch_post_install.sh`
 
-## MISC
+## Misc guides
 ### How to clear all partitions
 ```
 gdisk /dev/nvme0n1
 x
 z
-w
+y
+y
 ```
 
 ### How to disable VS Code online services
 * Search for @tag:usesOnlineServices in VSCode settings and disable online services
+
+### Recommended Firefox add-ons
+* [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
+* [HTTPS Everywhere](https://addons.mozilla.org/en-US/firefox/addon/https-everywhere/)
+* [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
 
 ### How to setup Github with SSH Key
 ```
@@ -80,7 +105,7 @@ git config --global user.name "username"
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
-copy SSH key and add to Github (eg. mousepad ~/.ssh/id_rsa.pub and copy content)
+copy SSH key and add to Github (eg. nvim ~/.ssh/id_rsa.pub and copy content)
 ```
 
 ### How to chroot
@@ -101,5 +126,7 @@ cd ..
 rm -rf yay-bin
 ```
 
-### References
-* Ricing: [First rice on my super old MacBook Air!](https://www.reddit.com/r/unixporn/comments/9y9w0r/sway_first_rice_on_my_super_old_macbook_air/) on Reddit
+## References
+* Ricing: [First rice on my super old MacBook Air!](https://www.reddit.com/r/unixporn/comments/9y9w0r/sway_first_rice_on_my_super_old_macbook_air/)
+* Wallpaper: [Photo by Omar G. Garnica on Unsplash](https://unsplash.com/photos/6gdqWFolkC4)
+* neovim configurations: [jarvis dotfiles](https://github.com/ctaylo21/jarvis)

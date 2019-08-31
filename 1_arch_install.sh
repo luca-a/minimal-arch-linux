@@ -75,7 +75,7 @@ mkdir -p /efi/loader/
 touch /efi/loader/loader.conf
 tee -a /efi/loader/loader.conf << END
 default arch
-timeout 0
+timeout 1
 editor 0
 END
 
@@ -131,6 +131,10 @@ Security=wpa
 ESSID='$ssid'
 Key='$key'
 END
+
+echo "Enabling suspend and hibernate"
+sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=hibernate/g' /etc/systemd/logind.conf
+sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=suspend/g' /etc/systemd/logind.conf
 
 echo "Adding user as a sudoer"
 echo '%wheel ALL=(ALL) ALL' | EDITOR='tee -a' visudo

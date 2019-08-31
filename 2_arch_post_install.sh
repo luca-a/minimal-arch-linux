@@ -25,7 +25,7 @@ echo "Installing common applications"
 echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop powertop
 
 echo "Installing fonts"
-yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code
+yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code noto-fonts gsfonts powerline-fonts
 
 echo "Installing and setting zsh"
 yes | sudo pacman -S zsh zsh-theme-powerlevel9k
@@ -39,7 +39,7 @@ wget -P ~/.zshrc.d https://raw.githubusercontent.com/luca-a/minimal-arch-linux/m
 echo "Setting up GTK theme and installing dependencies"
 yes | sudo pacman -S gtk-engine-murrine gtk-engines
 git clone https://github.com/vinceliuice/Qogir-theme.git
-cd Qogir-theme
+cd Qogir-themep
 sudo mkdir -p /usr/share/themes
 sudo ./install.sh -d /usr/share/themes
 cd ..
@@ -58,7 +58,7 @@ sudo mkdir -p /usr/share/fonts/TTF/
 sudo wget -P /usr/share/fonts/TTF/ https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf
 
 echo "Installing sway and additional packages"
-yes | sudo pacman -S sway swaylock swayidle waybar pulseaudio pavucontrol rofi slurp grim thunar mousepad nnn light feh qalculate-gtk
+yes | sudo pacman -S sway swaylock swayidle waybar wl-clipboard pulseaudio pavucontrol rofi slurp grim thunar mousepad nnn light feh qalculate-gtk
 mkdir -p ~/.config/sway
 wget -P ~/.config/sway/ https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/sway/config
 mkdir -p ~/Pictures/screenshots
@@ -75,11 +75,10 @@ echo "Ricing Alacritty"
 mkdir -p ~/.config/alacritty
 wget -P ~/.config/alacritty https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/alacritty/alacritty.yml
 
-#TODO pull and replace with links from personal repository
 echo "Ricing rofi"
 mkdir -p ~/.config/rofi
-wget -P ~/.config/rofi https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/configs/rofi/base16-material-darker.rasi
-wget -P ~/.config/rofi https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/configs/rofi/config
+wget -P ~/.config/rofi https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/rofi/base16-material-darker.rasi
+wget -P ~/.config/rofi https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/rofi/config
 
 echo "Increasing the amount of inotify watchers"
 echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-watches.conf && sudo sysctl --system
