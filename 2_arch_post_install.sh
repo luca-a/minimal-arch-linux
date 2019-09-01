@@ -24,6 +24,24 @@ sudo systemctl start tlp-sleep.service
 echo "Installing common applications"
 echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop powertop
 
+echo "Enabling powertop auto-tune at startup"
+touch /etc/systemd/system/powertop.service
+tee -a /etc/systemd/system/powertop.service << END
+[Unit]
+Description=Powertop tunings
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/powertop --auto-tune
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+END
+
+sudo systemctl daemon-reload
+sudo systemctl enable powertop.service
+
 echo "Installing fonts"
 yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code noto-fonts gsfonts powerline-fonts
 
@@ -52,6 +70,9 @@ sudo mkdir -p /usr/share/icons
 sudo ./install.sh -d /usr/share/icons
 cd ..
 rm -rf Qogir-icon-theme
+
+echo "Installing cursor theme"
+yes | sudo pacman -S capitaine-cursors
 
 echo "Installing Material Design icons"
 sudo mkdir -p /usr/share/fonts/TTF/

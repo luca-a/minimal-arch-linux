@@ -13,6 +13,9 @@ set $right l
 set $term alacritty
 # Your preferred application launcher
 set $menu rofi -show run
+# Cursor theme
+set $cursor capitaine-cursors
+set $cursor_size 10
 
 ### Output configuration
 
@@ -233,10 +236,15 @@ bindsym $mod+Print exec $screenshot -g "$($screenselect)" $screenshotout
 # Set gnome theme and icons
 # ----------------------------------------------------------------------------
 
+seat seat0 xcursor_theme $cursor $cursor_size
+
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
     gsettings set $gnome-schema gtk-theme 'Qogir-win-light'
     gsettings set $gnome-schema icon-theme 'Qogir'
+
+    gsettings set org.gnome.desktop.interface cursor-theme $cursor
+    gsettings set org.gnome.desktop.interface cursor-size $cursor_size
 }
 
 include /etc/sway/config.d/*
