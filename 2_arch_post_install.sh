@@ -85,7 +85,8 @@ wget -P ~/.config/sway/ https://raw.githubusercontent.com/luca-a/minimal-arch-li
 mkdir -p ~/Pictures/screenshots
 
 echo "Setting wallpaper"
-wget -P ~/Pictures/ https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/wallpaper/6303-mauritania.jpg
+mkdir -p ~/Pictures/wallpapers
+wget -P ~/Pictures/wallpapers/ https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/wallpaper/westboundary-unsplash.jpg
 
 echo "Ricing waybar"
 mkdir -p ~/.config/waybar

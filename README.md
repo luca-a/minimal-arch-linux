@@ -1,26 +1,19 @@
 # Minimal Arch Linux setup - Install scripts
+## Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
 Clean | Busy
 :-------------------------:|:-------------------------:
 ![screenshot_2](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot_2.png) | ![screenshot](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot.png)
 
 ## Install script
-* LVM on LUKS
-* LUKS2
 * systemd-boot (with Pacman hook for automatic updates)
 * Automatic login (with systemd)
-* SSD Periodic TRIM
-* Intel microcode
+* AMD microcode
 * Automatic sort of mirrors list by speed, synced within the last 12 hours and filtered by HTTPS protocol (Reflector with Pacman hook)
-* Standard Kernel + LTS kernel as fallback
-* AppArmor
 * Hibernate (power key) + suspend (lid close)
 
 ### Requirements
-* UEFI mode
-* NVMe SSD
-* TRIM compatible SSD
-* Intel CPU
+* Matebook D hardware or similar
 
 ### Partitions
 | Name | Type | Mountpoint |
@@ -34,7 +27,6 @@ Clean | Busy
 
 ## Post install script
 * UFW (deny incoming, allow outgoing)
-* Firejail (with AppArmor integration)
 * TLP (default settings)
 * base16-material-darker (alacritty, neovim, rofi, waybar, VS Code)
 * swaywm:
@@ -47,14 +39,8 @@ Clean | Busy
 * zsh:
    * powerlevel9k theme
    * History
-   * ~~Force wayland for QT applications~~ disabled due to incompatibility with keepassxc
-   * ~~Force wayland for GTK applications~~ disabled due to incompatibility with electron apps (e.g. VS Code)
-* neovim:
-   * nerdtree
-   * coc
-   * denite
 * GTK theme and icons: Qogir
-* Other applications: firefox, keepassxc, git, openssh, vim, thunar (with USB automonting), golang, Node.js LTS, tumbler, evince, gimp, inkscape, thunderbird, upower, htop, VS code oss, nnn and a few others
+* Other applications: git, openssh, thunar, upower, htop, nnn and a few others
 
 ## Quick start / Brief install guide
 *See 'Detailed installation guide' below for the expanded version*
@@ -90,14 +76,6 @@ y
 y
 ```
 
-### How to disable VS Code online services
-* Search for @tag:usesOnlineServices in VSCode settings and disable online services
-
-### Recommended Firefox add-ons
-* [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
-* [HTTPS Everywhere](https://addons.mozilla.org/en-US/firefox/addon/https-everywhere/)
-* [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
-
 ### How to setup Github with SSH Key
 ```
 git config --global user.email "github external email"
@@ -128,5 +106,5 @@ rm -rf yay-bin
 
 ## References
 * Ricing: [First rice on my super old MacBook Air!](https://www.reddit.com/r/unixporn/comments/9y9w0r/sway_first_rice_on_my_super_old_macbook_air/)
-* Wallpaper: [Photo by Omar G. Garnica on Unsplash](https://unsplash.com/photos/6gdqWFolkC4)
-* neovim configurations: [jarvis dotfiles](https://github.com/ctaylo21/jarvis)
+* Wallpaper: [Photo by WestBoundary Photography chris gill on Unsplash](https://unsplash.com/photos/lBL7rSRaNGs)
+* Linux on MateBook doc: [GNU/Linux on MateBook D 14" AMD Ryzen 5 2500U](https://gitlab.com/cscs/linux-on-huawei-matebook-d-14-amd)

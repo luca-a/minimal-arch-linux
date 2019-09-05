@@ -86,7 +86,7 @@ title ArchLinux
 linux /vmlinuz-linux
 initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options root=/dev/nvme0n1p2 quiet rw
+options root=/dev/nvme0n1p2 vga=current ivrs_ioapic[4]=00:14.0 ivrs_ioapic[5]=00:00.2 iommu=pt idle=nomwait acpi_enforce_resources=lax scsi_mod.use_blk_mq=1 amdgpu.gpu_recovery=1 quiet rw
 END
 
 echo "Setting up Pacman hook for automatic systemd-boot updates"
