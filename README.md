@@ -1,9 +1,7 @@
 # Minimal Arch Linux setup - Install scripts
-## Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
+### Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
-Clean | Busy
-:-------------------------:|:-------------------------:
-![screenshot_2](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot_2.png) | ![screenshot](https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/screenshot.png)
+[comment]: <> (Include image of the desktop here)
 
 ## Install script
 * systemd-boot (with Pacman hook for automatic updates)

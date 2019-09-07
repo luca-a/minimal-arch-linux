@@ -22,22 +22,7 @@ sudo systemctl start tlp.service
 sudo systemctl start tlp-sleep.service
 
 echo "Installing common applications"
-echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop powertop
-
-echo "Enabling powertop auto-tune at startup"
-touch /etc/systemd/system/powertop.service
-tee -a /etc/systemd/system/powertop.service << END
-[Unit]
-Description=Powertop tunings
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/powertop --auto-tune
-RemainAfterExit=true
-
-[Install]
-WantedBy=multi-user.target
-END
+echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop
 
 sudo systemctl daemon-reload
 sudo systemctl enable powertop.service
