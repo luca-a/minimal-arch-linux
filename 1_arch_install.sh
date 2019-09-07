@@ -10,10 +10,6 @@ user_password=""
 continent_city="" #Europe/Rome
 #swap_size="16" #add swap file creation
 
-#Wifi info
-ssid="" #Your ap ssid
-key="" #Your ap passphrase
-
 echo "Updating system clock"
 timedatectl set-ntp true
 
@@ -37,7 +33,7 @@ mount /dev/nvme0n1p1 /mnt/efi
 mount /dev/nvme0n1p3 /mnt/home
 
 echo "Installing Arch Linux"
-yes '' | pacstrap /mnt base base-devel amd-ucode wget reflector
+yes '' | pacstrap /mnt base base-devel amd-ucode networkmanager wget reflector
 
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -122,15 +118,8 @@ Depends = reflector
 Exec = /bin/sh -c "reflector --latest 200 --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 END
 
-echo "Creating netctl profile"
-touch /etc/netctl/wireless
-tee -a /etc/netctl/wireless << END
-Interface=wlan0
-Connection=wireless
-Security=wpa
-ESSID='$ssid'
-Key='$key'
-END
+echo "Enabling NetworkManager"
+systemctl enable NetworkManager
 
 echo "Enabling suspend and hibernate"
 sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=hibernate/g' /etc/systemd/logind.conf
