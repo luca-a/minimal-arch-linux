@@ -77,6 +77,9 @@ mkdir -p ~/.config/sway
 wget -P ~/.config/sway/ https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/sway/config
 mkdir -p ~/Pictures/screenshots
 
+echo "Enabling auto-mount for thunar"
+yes | sudo pacman -S gvfs thunar-volman
+
 echo "Setting wallpaper"
 mkdir -p ~/Pictures/wallpapers
 wget -P ~/Pictures/wallpapers/ https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/wallpaper/westboundary-unsplash.jpg
