@@ -1,4 +1,4 @@
-# Minimal Arch Linux setup - Install scripts
+# Minimal Arch Linux setup - Install scripts [NOT TESTED YET]
 ### Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
 [comment]: <> (Include image of the desktop here)
@@ -11,17 +11,15 @@
 * Hibernate (power key) + suspend (lid close)
 
 ### Requirements
-* Matebook D hardware or similar
+* Matebook D KPL-W0X hardware or similar
 
 ### Partitions
 | Name | Type | Mountpoint |
 | - | :-: | :-: |
 | nvme0n1 | disk | |
-| ├─nvme0n1p1 | part | /boot |
-| ├─nvme0n1p2 | part |  |
-| &nbsp;&nbsp;&nbsp;└─cryptoVols | crypt | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─Arch-swap | lvm | [SWAP] |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─Arch-root | lvm | / |
+| ├─nvme0n1p1 | part | /efi |
+| ├─nvme0n1p2 | part | / |
+| ├─nvme0n1p3 | part | /home |
 
 ## Post install script
 * UFW (deny incoming, allow outgoing)

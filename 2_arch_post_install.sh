@@ -98,6 +98,26 @@ mkdir -p ~/.config/rofi
 wget -P ~/.config/rofi https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/rofi/base16-material-darker.rasi
 wget -P ~/.config/rofi https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/configs/rofi/config
 
+echo "Blacklisting matebook unused modules"
+sudo touch /etc/modprobe.d/blacklist-matebook.conf
+sudo tee /etc/modprobe.d/blacklist-matebook.conf << END
+blacklist tpm
+blacklist tpm_crb
+blacklist tpm_tis
+blacklist tpm_tis_core
+blacklist sp5100_tco
+blacklist psmouse
+END
+
+echo "Blacklisting optional modules"
+sudo touch /etc/modprobe.d/blacklist-optional.conf
+sudo tee /etc/modprobe.d/blacklist-optional.conf << END
+blacklist joydev
+blacklist kvm
+END
+
+sudo mkinitcpio -p linux
+
 echo "Increasing the amount of inotify watchers"
 echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-watches.conf && sudo sysctl --system
 
