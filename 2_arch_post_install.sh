@@ -24,16 +24,16 @@ sudo systemctl enable NetworkManager-dispatcher.service
 sudo systemctl mask systemd-rfkill.service
 sudo systemctl mask systemd-rfkill.socket
 
+sudo sed -i 's/^USB_BLACKLIST_BTUSB.*/USB_BLACKLIST_BTUSB=1/' /etc/default/tlp
+sudo tlp start
+
 echo "Installing common applications"
 echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop
 
 echo "Installing sublime text"
 curl -O https://download.sublimetext.com/sublimehq-pub.gpg && sudo pacman-key --add sublimehq-pub.gpg && sudo pacman-key --lsign-key 8A8F901A && rm sublimehq-pub.gpg
 echo -e "\n[sublime-text]\nServer = https://download.sublimetext.com/arch/stable/x86_64" | sudo tee -a /etc/pacman.conf
-yes | sudo pacman -S sublime-text
-
-sudo systemctl daemon-reload
-sudo systemctl enable powertop.service
+yes | sudo pacman -Syu sublime-text
 
 echo "Installing fonts"
 yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code noto-fonts gsfonts powerline-fonts
