@@ -1,5 +1,5 @@
 # Minimal Arch Linux setup - Install scripts [NOT TESTED YET]
-### Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
+Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
 [comment]: <> (Include image of the desktop here)
 
@@ -42,7 +42,7 @@
 *See 'Detailed installation guide' below for the expanded version*
 * Increase cowspace partition so that git can be downloaded without before chroot: `mount -o remount,size=2G /run/archiso/cowspace`
 * Install git: `pacman -Sy git`
-* Clone repository: `git clone https://github.com/exah-io/minimal-arch-linux.git`
+* Clone repository: `git clone https://github.com/luca-a/minimal-arch-linux.git`
 * Run install script: `bash minimal-arch-linux/1_arch_install.sh`
 
 ## Detailed installation guide
@@ -50,7 +50,7 @@
 2. Connect to the internet. If using wifi, you can use `wifi-menu` to connect to a network
 3. Clear all existing partitions (see below: MISC - How to clear all partitions)
 4. (optional) Give highest priority to the closest mirror to you on /etc/pacman.d/mirrorlist by moving it to the top
-5. `wget https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/1_arch_install.sh`
+5. `wget https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/1_arch_install.sh`
 6. Change the variables at the top of the file (lines 3 through 9)
    * continent_country must have the following format: Zone/SubZone . e.g. Europe/Berlin
    * run `timedatectl list-timezones` to see full list of zones and subzones   
@@ -58,7 +58,7 @@
 8. Run the script: `./1_arch_install.sh`
 9. Reboot into Arch Linux
 10. Connect to wifi with `nmtui`
-10. `wget https://raw.githubusercontent.com/exah-io/minimal-arch-linux/master/2_arch_post_install.sh`
+10. `wget https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/2_arch_post_install.sh`
 11. Make the script executable: `chmod +x 2_arch_post_install.sh`
 12. Run the script: `./2_arch_post_install.sh`
 
