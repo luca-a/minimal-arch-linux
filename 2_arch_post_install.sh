@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo "Setting netctl profile"
-sudo netctl enable wireless
-
 echo "Installing common packages"
 yes | sudo pacman -S linux-headers dkms xdg-user-dirs xorg-server-xwayland
 
@@ -27,13 +24,34 @@ sudo systemctl mask systemd-rfkill.socket
 sudo sed -i 's/^USB_BLACKLIST_BTUSB.*/USB_BLACKLIST_BTUSB=1/' /etc/default/tlp
 sudo tlp start
 
+echo "Installing bluez and enabling bluetooth"
+yes | sudo pacman -S bluez bluez-utils
+sudo systemctl enable bluetooth.service
+
 echo "Installing common applications"
 echo -en "1\nyes" | sudo pacman -S chromium git openssh links alacritty upower htop
 
-echo "Installing sublime text"
+echo "Installing and setting sublime text"
 curl -O https://download.sublimetext.com/sublimehq-pub.gpg && sudo pacman-key --add sublimehq-pub.gpg && sudo pacman-key --lsign-key 8A8F901A && rm sublimehq-pub.gpg
 echo -e "\n[sublime-text]\nServer = https://download.sublimetext.com/arch/stable/x86_64" | sudo tee -a /etc/pacman.conf
 yes | sudo pacman -Syu sublime-text
+sudo touch ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+sudo tee ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings << END
+{
+	"font_size": 10,
+	"theme": "Adaptive.sublime-theme"
+}
+END
+sudo touch ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings
+sudo tee ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings << END
+{
+	"installed_packages":
+	[
+		"Git Conflict Resolver",
+		"Package Control"
+	]
+}
+END
 
 echo "Installing fonts"
 yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code noto-fonts gsfonts powerline-fonts
@@ -78,7 +96,7 @@ wget -P ~/.config/sway/ https://raw.githubusercontent.com/luca-a/minimal-arch-li
 mkdir -p ~/Pictures/screenshots
 
 echo "Enabling auto-mount for thunar"
-yes | sudo pacman -S gvfs thunar-volman
+yes | sudo pacman -S gvfs thunar-volman 
 
 echo "Setting wallpaper"
 mkdir -p ~/Pictures/wallpapers
