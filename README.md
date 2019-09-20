@@ -1,6 +1,7 @@
 # Minimal Arch Linux setup - Install scripts [NOT TESTED YET]
 Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
+<<<<<<< HEAD
 [comment]: <> (Include image of the desktop here)
 
 ## Install script
@@ -46,24 +47,27 @@ Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018)
 * Run install script: `bash minimal-arch-linux/1_arch_install.sh`
 
 ## Detailed installation guide
+
 1. Download and boot into the latest [Arch Linux iso](https://www.archlinux.org/download/)
 2. Connect to the internet. If using wifi, you can use `wifi-menu` to connect to a network
 3. Clear all existing partitions (see below: MISC - How to clear all partitions)
 4. (optional) Give highest priority to the closest mirror to you on /etc/pacman.d/mirrorlist by moving it to the top
 5. `wget https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/1_arch_install.sh`
 6. Change the variables at the top of the file (lines 3 through 9)
-   * continent_country must have the following format: Zone/SubZone . e.g. Europe/Berlin
-   * run `timedatectl list-timezones` to see full list of zones and subzones   
+   - continent_country must have the following format: Zone/SubZone . e.g. Europe/Berlin
+   - run `timedatectl list-timezones` to see full list of zones and subzones
 7. Make the script executable: `chmod +x 1_arch_install.sh`
 8. Run the script: `./1_arch_install.sh`
 9. Reboot into Arch Linux
 10. Connect to wifi with `nmtui`
-10. `wget https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/2_arch_post_install.sh`
-11. Make the script executable: `chmod +x 2_arch_post_install.sh`
-12. Run the script: `./2_arch_post_install.sh`
+11. `wget https://raw.githubusercontent.com/luca-a/minimal-arch-linux/master/2_arch_post_install.sh`
+12. Make the script executable: `chmod +x 2_arch_post_install.sh`
+13. Run the script: `./2_arch_post_install.sh`
 
 ## Misc guides
+
 ### How to clear all partitions
+
 ```
 gdisk /dev/nvme0n1
 x
@@ -73,6 +77,7 @@ y
 ```
 
 ### How to setup Github with SSH Key
+
 ```
 git config --global user.email "github external email"
 git config --global user.name "username"
@@ -83,6 +88,7 @@ copy SSH key and add to Github (eg. nvim ~/.ssh/id_rsa.pub and copy content)
 ```
 
 ### How to chroot
+
 ```
 mkdir -p /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
@@ -92,6 +98,7 @@ arch-chroot /mnt
 ```
 
 ### How to install yay
+
 ```
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin

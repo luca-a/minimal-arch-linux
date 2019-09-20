@@ -22,9 +22,9 @@ set $cursor_size 10
 output * bg ~/Pictures/wallpapers/westboundary-unsplash.jpg fill
 
 default_border pixel 3
-#smart_gaps on
+smart_gaps on
 gaps inner 3
-gaps outer 3
+gaps outer 0
 hide_edge_borders smart
 
 bindsym XF86MonBrightnessUp exec light -A 5
@@ -43,6 +43,7 @@ exec swayidle -w \
          timeout 305 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000 -i ~/Pictures/wallpapers/westboundary-unsplash.jpg'
+
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 305 seconds, and turn your screens back on when
