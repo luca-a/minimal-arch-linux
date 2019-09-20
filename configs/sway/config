@@ -240,7 +240,7 @@ seat seat0 xcursor_theme $cursor $cursor_size
 
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
-    gsettings set $gnome-schema gtk-theme 'Qogir-win-light'
+    gsettings set $gnome-schema gtk-theme 'Qogir-win-dark'
     gsettings set $gnome-schema icon-theme 'Qogir'
 
     gsettings set org.gnome.desktop.interface cursor-theme $cursor
