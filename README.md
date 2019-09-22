@@ -1,7 +1,6 @@
 # Minimal Arch Linux setup - Install scripts [NOT TESTED YET]
 Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
-<<<<<<< HEAD
 [comment]: <> (Include image of the desktop here)
 
 ## Install script

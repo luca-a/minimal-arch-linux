@@ -27,6 +27,8 @@ sudo tlp start
 echo "Installing bluez and enabling bluetooth"
 yes | sudo pacman -S bluez bluez-utils
 sudo systemctl enable bluetooth.service
+#To avoid bluetooth mouse polling rate cap to 20hz 
+sudo echo 6 > /sys/kernel/debug/bluetooth/hci0/conn_min_interval
 
 echo "Installing common applications"
 echo -en "1\nyes" | sudo pacman -S chromium git openssh links upower htop
