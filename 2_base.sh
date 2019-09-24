@@ -65,7 +65,7 @@ git clone https://github.com/bhilburn/powerlevel9k.git "$HOME"/.oh-my-zsh/custom
 sed -i 's/robbyrussell/powerlevel9k\/powerlevel9k/g' "$HOME"/.zshrc
 { echo 'POWERLEVEL9K_DISABLE_RPROMPT=true'; echo 'POWERLEVEL9K_PROMPT_ON_NEWLINE=true';  echo 'POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="▶ "'; echo 'POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)'; } >> "$HOME"/.zshrc
 
-echo "Setting up GTK theme and installing dependencies"
+echo "Installing theme dependencies"
 yes | sudo pacman -S gtk-engine-murrine gtk-engines
 
 echo "Setting up Qogir (GTK) theme"
@@ -102,7 +102,7 @@ blacklist joydev
 blacklist kvm
 END
 
-echo "Enabling audio power saving"
+echo "Enabling audio power saving" #Probably useless on matebook
 sudo touch /etc/modprobe.d/audio-powersave.conf
 echo "options snd_hda_intel power_save=1" | sudo tee /etc/modprobe.d/audio-powersave.conf
 

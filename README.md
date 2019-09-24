@@ -35,8 +35,9 @@ Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018)
 * zsh:
    * powerlevel9k theme
    * History
+   * oh-my-zsh
 * GTK theme and icons: Qogir
-* Other applications: git, openssh, thunar, upower, htop, nnn and a few others
+* Other applications: sublime-text, chromium, git, openssh, thunar, upower, htop, nnn and a few others
 
 ## Quick start / Brief install guide
 *See 'Detailed installation guide' below for the expanded version*
@@ -78,9 +79,9 @@ y
 ### How to setup Github with SSH Key
 
 ```
-git config --global user.email "github external email"
-git config --global user.name "username"
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+git config --global user.email "Github external email"
+git config --global user.name "Github username"
+ssh-keygen -t rsa -b 4096 -C "Github email"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 copy SSH key and add to Github (eg. nvim ~/.ssh/id_rsa.pub and copy content)
@@ -109,4 +110,4 @@ rm -rf yay-bin
 ## References
 * Ricing: [First rice on my super old MacBook Air!](https://www.reddit.com/r/unixporn/comments/9y9w0r/sway_first_rice_on_my_super_old_macbook_air/)
 * Wallpaper: [Photo by WestBoundary Photography chris gill on Unsplash](https://unsplash.com/photos/lBL7rSRaNGs)
-* Linux on MateBook doc: [GNU/Linux on MateBook D 14" AMD Ryzen 5 2500U](https://gitlab.com/cscs/linux-on-huawei-matebook-d-14-amd)
+* Linux on MateBook: [GNU/Linux on MateBook D 14" AMD Ryzen 5 2500U](https://gitlab.com/cscs/linux-on-huawei-matebook-d-14-amd)
