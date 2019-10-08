@@ -102,10 +102,6 @@ blacklist joydev
 blacklist kvm
 END
 
-echo "Enabling audio power saving" #Probably useless on matebook
-sudo touch /etc/modprobe.d/audio-powersave.conf
-echo "options snd_hda_intel power_save=1" | sudo tee /etc/modprobe.d/audio-powersave.conf
-
 sudo mkinitcpio -p linux
 
 echo "Increasing the amount of inotify watchers"
