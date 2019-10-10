@@ -33,7 +33,7 @@ mount /dev/nvme0n1p1 /mnt/boot
 mount /dev/nvme0n1p3 /mnt/home
 
 echo "Installing Arch Linux"
-yes '' | pacstrap /mnt base base-devel amd-ucode mesa networkmanager wget reflector
+yes '' | pacstrap /mnt base base-devel linux amd-ucode mesa networkmanager wget reflector
 
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
