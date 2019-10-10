@@ -14,7 +14,7 @@ echo "Updating system clock"
 timedatectl set-ntp true
 
 echo "Creating partition tables"
-printf "n\n1\n2048\n+512M\nef00\nw\ny\n" | gdisk /dev/nvme0n1 # /efi EFI (512 MB)
+printf "n\n1\n2048\n+512M\nef00\nw\ny\n" | gdisk /dev/nvme0n1 # /boot EFI (512 MB)
 printf "n\n2\n\n+100G\n8300\nw\ny\n" | gdisk /dev/nvme0n1 # / LINUX FILESYSTEM (100 GB)
 printf "n\n3\n\n\n8300\nw\ny\n" | gdisk /dev/nvme0n1 # /home LINUX FILESYSTEM (remaining space)
 
@@ -23,17 +23,17 @@ yes | mkfs.fat -F32 /dev/nvme0n1p1
 yes | mkfs.ext4 /dev/nvme0n1p2
 yes | mkfs.ext4 /dev/nvme0n1p3
 
-echo "Mounting root/efi/home"
+echo "Mounting partitions"
 mount /dev/nvme0n1p2 /mnt
 
-mkdir /mnt/efi
+mkdir /mnt/boot
 mkdir /mnt/home
 
-mount /dev/nvme0n1p1 /mnt/efi
+mount /dev/nvme0n1p1 /mnt/boot
 mount /dev/nvme0n1p3 /mnt/home
 
 echo "Installing Arch Linux"
-yes '' | pacstrap /mnt base base-devel amd-ucode networkmanager wget reflector
+yes '' | pacstrap /mnt base base-devel amd-ucode amdgpu networkmanager wget reflector
 
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -66,19 +66,19 @@ sed -i 's/^MODULES.*/MODULES=(amdgpu)/' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 echo "Setting up systemd-boot"
-bootctl --path=/efi install
+bootctl --path=/boot install
 
-mkdir -p /efi/loader/
-touch /efi/loader/loader.conf
-tee -a /efi/loader/loader.conf << END
+mkdir -p /boot/loader/
+touch /boot/loader/loader.conf
+tee -a /boot/loader/loader.conf << END
 default arch
 timeout 1
 editor 0
 END
 
-mkdir -p /efi/loader/entries/
-touch /efi/loader/entries/arch.conf
-tee -a /efi/loader/entries/arch.conf << END
+mkdir -p /boot/loader/entries/
+touch /boot/loader/entries/arch.conf
+tee -a /boot/loader/entries/arch.conf << END
 title ArchLinux
 linux /vmlinuz-linux
 initrd /amd-ucode.img
