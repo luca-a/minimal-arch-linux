@@ -8,6 +8,8 @@ user_name=""
 user_password=""
 
 continent_city="" #Europe/Rome
+keymap="" #it
+
 #swap_size="16" #add swap file creation
 
 echo "Updating system clock"
@@ -48,6 +50,9 @@ echo "Setting locales"
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 locale-gen
+
+echo "Setting keyboard layout"
+echo "KEYMAP=$keymap" >> /etc/vconsole.conf
 
 echo "Setting hostname"
 echo $hostname > /etc/hostname
