@@ -1,4 +1,4 @@
-# Minimal Arch Linux setup - Install scripts [NOT TESTED YET]
+# Minimal Arch Linux setup - Install scripts
 Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018) 
 
 [comment]: <> (Include image of the desktop here)
@@ -17,7 +17,7 @@ Adapted to Matebook D (AMD Ryzen 5 2500U model KPL-W0X in 2018)
 | Name | Type | Mountpoint |
 | - | :-: | :-: |
 | nvme0n1 | disk | |
-| ├─nvme0n1p1 | part | /efi |
+| ├─nvme0n1p1 | part | /boot |
 | ├─nvme0n1p2 | part | / |
 | ├─nvme0n1p3 | part | /home |
 
