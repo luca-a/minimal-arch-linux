@@ -124,6 +124,9 @@ Depends = reflector
 Exec = /bin/sh -c "reflector --latest 200 --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 END
 
+echo "Enabling periodic TRIM"
+systemctl enable fstrim.timer
+
 echo "Enabling NetworkManager"
 systemctl enable NetworkManager
 
