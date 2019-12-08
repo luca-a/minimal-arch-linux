@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Installing common packages"
-yes | sudo pacman -S linux-headers dkms xorg-server-xwayland
+yes | sudo pacman -S dkms xorg-server-xwayland
 
 echo "Installing and configuring UFW"
 yes | sudo pacman -S ufw
@@ -36,12 +36,11 @@ echo -en "1\nyes" | sudo pacman -S chromium git openssh links upower htop
 echo "Installing fonts"
 yes | sudo pacman -S ttf-droid ttf-opensans ttf-dejavu ttf-liberation ttf-hack ttf-fira-code noto-fonts gsfonts powerline-fonts
 
-echo "Installing and setting zsh, oh-my-zsh and powerlevel9k"
-yes | sudo pacman -S zsh zsh-theme-powerlevel9k
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/bhilburn/powerlevel9k.git "$HOME"/.oh-my-zsh/custom/themes/powerlevel9k
-sed -i 's/robbyrussell/powerlevel9k\/powerlevel9k/g' "$HOME"/.zshrc
-{ echo 'POWERLEVEL9K_DISABLE_RPROMPT=true'; echo 'POWERLEVEL9K_PROMPT_ON_NEWLINE=true';  echo 'POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="▶ "'; echo 'POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)'; } >> "$HOME"/.zshrc
+echo "Installing and setting zsh, oh-my-zsh and powerlevel10k"
+yes | sudo pacman -S zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM"/themes/powerlevel10k
+sed -i 's/robbyrussell/powerlevel10k\/powerlevel10k/g' "$HOME"/.zshrc
 
 echo "Installing theme dependencies"
 yes | sudo pacman -S gtk-engine-murrine gtk-engines
